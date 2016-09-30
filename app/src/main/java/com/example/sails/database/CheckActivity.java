@@ -88,45 +88,46 @@ public class CheckActivity extends AppCompatActivity {
             Log.d(LOG_TAG, t.getMask());
         }
 
+        //String [] words = splitLine(query.replaceAll("[\\s]{2,}", " ").trim());
+        ArrayList<Lexeme> lexemes = splitLine(query.replaceAll("[\\s]{2,}", " ").trim());
 
-        String [] words = splitLine(query.replaceAll("[\\s]{2,}", " ").trim());
+
 
         HashMap<String, String> map;
         ArrayList<HashMap<String,String>> arrayData = new ArrayList<>();
 
-        for (String word: words) {
+        for (Lexeme lexeme: lexemes) {
             for(Token t: myTokens){
-                if(t.checkMask(word)){
+                if(t.checkMask(lexeme.getWord())){
                     if(t.getName().equals("constant value"))
                     {
-                        word = word.replaceAll(strInsteadSpace, " ");
+                        lexeme.setWord(lexeme.getWord().replaceAll(strInsteadSpace, " "));
                     }
+                    lexeme.setType(t.getName());
+
                     map = new HashMap<>();
-                    map.put("word", word);
-                    map.put("type", t.getName());
-                    map.put("begins", String.valueOf(word.charAt(0)));
-                    map.put("length", String.valueOf(word.length()));
+                    map.put("word", lexeme.getWord());
+                    map.put("type", lexeme.getType());
+                    map.put("position", String.valueOf(lexeme.getPosition()));
+                    map.put("begins", String.valueOf(lexeme.getBeginsFrom()));
+                    map.put("length", String.valueOf(lexeme.getLength()));
                     arrayData.add(map);
-                    Log.d(LOG_TAG, "Word \"" + word + "\" \t\tType: " + t.getName() + "\t\tBegins: \"" + word.charAt(0) + "\"" + "\t\tLength: " + word.length());
+                    Log.d(LOG_TAG, lexeme.toString());
                     break;
                 }
             }
         }
 
-        SimpleAdapter adapter = new SimpleAdapter(this, arrayData, R.layout.four_text_views,
-                new String[]{"word", "type", "begins", "length"},
-                new int[]{R.id.text1, R.id.text2, R.id.text3, R.id.text4});
+        SimpleAdapter adapter = new SimpleAdapter(this, arrayData, R.layout.two_text_views,
+                new String[]{"word", "type"},
+                new int[]{R.id.text1, R.id.text2});
 
         LayoutInflater layoutInflater = getLayoutInflater();
-        View headerView = layoutInflater.inflate(R.layout.four_text_views_header, null, false);
+        View headerView = layoutInflater.inflate(R.layout.two_text_views_header, null, false);
         TextView textView1 = (TextView) headerView.findViewById(R.id.text1);
         textView1.setText("Word");
         TextView textView2 = (TextView) headerView.findViewById(R.id.text2);
         textView2.setText("Type");
-        TextView textView3 = (TextView) headerView.findViewById(R.id.text3);
-        textView3.setText("Begins");
-        TextView textView4 = (TextView) headerView.findViewById(R.id.text4);
-        textView4.setText("Length");
 
         listView.addHeaderView(headerView);
         listView.setAdapter(adapter);
@@ -136,8 +137,6 @@ public class CheckActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 HashMap <String,String> hashMap = (HashMap <String,String>)listView.getItemAtPosition(i);
-
-                Log.d(LOG_TAG, hashMap.get("word") + "  " + hashMap.get("type") + "  " + hashMap.get("begins") + "  " + hashMap.get("length"));
 
                 String word = hashMap.get("word");
                 String type = hashMap.get("type");
@@ -161,7 +160,7 @@ public class CheckActivity extends AppCompatActivity {
 
     }
 
-    private String[] splitLine(String line){
+    private ArrayList<Lexeme> splitLine(String line){
 
         Log.d(LOG_TAG, "class CustomQueryActivity. Method splitLine(line). line = \n" + line);
 
@@ -202,7 +201,22 @@ public class CheckActivity extends AppCompatActivity {
 
 
         Log.d(LOG_TAG, "Before Spliting. line = \n" + sLine);
-        return new String(sLine).split(" ");
+
+        String [] words = new String(sLine).split(" ");
+        ArrayList<Lexeme> arrayLexemes = new ArrayList<>();
+        int fromIndex = 0;
+        int index = 0;
+
+        for( int i = 0; i < words.length; i++){
+            if ((index = line.indexOf(words[i], fromIndex)) > -1){
+                arrayLexemes.add(new Lexeme(words[i], index));
+                fromIndex += words[i].length();
+            }
+        }
+
+
+
+        return arrayLexemes;
     }
 
     public boolean masContains(String [] mas, char value){
