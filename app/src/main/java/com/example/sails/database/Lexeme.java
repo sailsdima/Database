@@ -5,6 +5,7 @@ package com.example.sails.database;
  */
 public class Lexeme {
     private String word;
+    private String type = "";
     private int position;
     private int length;
     private char beginsFrom;
@@ -15,6 +16,10 @@ public class Lexeme {
         this.position = position;
         this.length = word.length();
         this.beginsFrom = word.charAt(0);
+    }
+
+    public void setType(String type){
+        this.type = type;
     }
 
     public void setWord(String word) {
@@ -42,4 +47,13 @@ public class Lexeme {
     public char getBeginsFrom() {
         return beginsFrom;
     }
+
+    public String getType(){
+        return type;
+    }
+
+    public String toString(){
+        return  "Word \"" + word + "\" \t\tType: " + type + "\t\tPosition: \"" + position + "\"" + "\t\tBeginsFrom " + beginsFrom + "\t\tLength: " + length;
+    }
+
 }
