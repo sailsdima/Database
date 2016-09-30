@@ -136,7 +136,10 @@ public class CheckActivity extends AppCompatActivity {
                 HashMap <String,String> hashMap = (HashMap <String,String>)listView.getItemAtPosition(i);
 
                 Log.d(LOG_TAG, hashMap.get("word") + "  " + hashMap.get("type") + "  " + hashMap.get("begins") + "  " + hashMap.get("length"));
-                }
+
+
+
+            }
         });
 
     }
