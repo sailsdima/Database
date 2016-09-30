@@ -219,6 +219,10 @@ public class CheckActivity extends AppCompatActivity {
         return arrayLexemes;
     }
 
+    private void createDialog(){
+
+    }
+
     public boolean masContains(String [] mas, char value){
 
         if (null == mas){
