@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -127,6 +128,16 @@ public class CheckActivity extends AppCompatActivity {
 
         listView.addHeaderView(headerView);
         listView.setAdapter(adapter);
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                HashMap <String,String> hashMap = (HashMap <String,String>)listView.getItemAtPosition(i);
+
+                Log.d(LOG_TAG, hashMap.get("word") + "  " + hashMap.get("type") + "  " + hashMap.get("begins") + "  " + hashMap.get("length"));
+                }
+        });
 
     }
 
