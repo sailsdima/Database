@@ -1,5 +1,6 @@
 package com.example.sails.database;
 
+import android.app.Dialog;
 import android.graphics.Color;
 import android.print.PrintAttributes;
 import android.support.v7.app.AppCompatActivity;
@@ -137,8 +138,23 @@ public class CheckActivity extends AppCompatActivity {
 
                 Log.d(LOG_TAG, hashMap.get("word") + "  " + hashMap.get("type") + "  " + hashMap.get("begins") + "  " + hashMap.get("length"));
 
+                String word = hashMap.get("word");
+                String type = hashMap.get("type");
+                String beginsFrom = hashMap.get("begins");
+                String position = hashMap.get("position");
+                String length = hashMap.get("length");
 
+                Dialog dialog = new Dialog(CheckActivity.this);
+                dialog.setContentView(R.layout.dialog_info_layout);
+                dialog.setTitle("Word analysis");
 
+                ((TextView) dialog.findViewById(R.id.textViewDialogWord)).setText(word);
+                ((TextView) dialog.findViewById(R.id.textViewDialogType)).setText(type);
+                ((TextView) dialog.findViewById(R.id.textViewDialogBegins)).setText(beginsFrom);
+                ((TextView) dialog.findViewById(R.id.textViewDialogPosition)).setText(position);
+                ((TextView) dialog.findViewById(R.id.textViewDialogLength)).setText(length);
+
+                dialog.show();
             }
         });
 
