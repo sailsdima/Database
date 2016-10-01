@@ -31,7 +31,7 @@ public class CheckActivity extends AppCompatActivity {
     private String arrSymbolsQuotes[];
     private String strInsteadSpace = "#32";
     private final static String LOG_TAG = "dbLogs";
-    private int totalDisplacement = 0;
+
 
 
 
@@ -180,7 +180,6 @@ public class CheckActivity extends AppCompatActivity {
                     if (sLine.charAt(i) == ' ') {
                         sLine.replace(i, i + 1, strInsteadSpace);
                         i += strInsteadSpace.length() - 1;
-                        totalDisplacement += strInsteadSpace.length() - 1;
                     }
                     i++;
                 }
