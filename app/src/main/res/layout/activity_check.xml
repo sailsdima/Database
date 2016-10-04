@@ -16,11 +16,12 @@
         android:layout_height="match_parent"
         android:layout_weight="4">
 
-        <TextView
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textViewCheckActivityQuery"
             style="@style/textViewStyleQuery"
+            android:imeOptions="actionSearch"
             android:text="Query"/>
 
     </ScrollView>

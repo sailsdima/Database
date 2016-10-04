@@ -5,8 +5,11 @@ import android.graphics.Color;
 import android.print.PrintAttributes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +34,8 @@ public class CheckActivity extends AppCompatActivity {
     private String arrSymbolsQuotes[];
     private String strInsteadSpace = "#32";
     private final static String LOG_TAG = "dbLogs";
-
+    private SimpleAdapter adapter;
+    private boolean adapterWasSet = false;
 
 
 
@@ -42,14 +46,33 @@ public class CheckActivity extends AppCompatActivity {
 
 
 
-        TextView editTextQuery = (TextView) findViewById(R.id.textViewCheckActivityQuery);
+        final EditText editTextQuery = (EditText) findViewById(R.id.textViewCheckActivityQuery);
         listView = (ListView) findViewById(R.id.listViewCheckActivity);
 
         initMyTokens();
 
         String query = getIntent().getStringExtra("query");
         editTextQuery.setText(query);
-        parseQuery(query);
+
+        parseQuery(editTextQuery.getText().toString());
+
+        editTextQuery.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+
+                if(keyEvent.getAction() == KeyEvent.ACTION_DOWN){
+                    if(i == KeyEvent.KEYCODE_ENTER){
+                        Log.d(LOG_TAG,"SPACE CLICKED");
+
+                        parseQuery(editTextQuery.getText().toString());
+
+                        return true;
+                    }
+
+                }
+                return false;
+            }
+        });
     }
 
 
@@ -118,45 +141,12 @@ public class CheckActivity extends AppCompatActivity {
             }
         }
 
-        SimpleAdapter adapter = new SimpleAdapter(this, arrayData, R.layout.two_text_views,
-                new String[]{"word", "type"},
-                new int[]{R.id.text1, R.id.text2});
-
-        LayoutInflater layoutInflater = getLayoutInflater();
-        View headerView = layoutInflater.inflate(R.layout.two_text_views_header, null, false);
-        TextView textView1 = (TextView) headerView.findViewById(R.id.text1);
-        textView1.setText("Word");
-        TextView textView2 = (TextView) headerView.findViewById(R.id.text2);
-        textView2.setText("Type");
-
-        listView.addHeaderView(headerView);
-        listView.setAdapter(adapter);
+        if(!adapterWasSet)
+            createDialog(arrayData);
+        else
+            adapter.notifyDataSetChanged();
 
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                HashMap <String,String> hashMap = (HashMap <String,String>)listView.getItemAtPosition(i);
-
-                String word = hashMap.get("word");
-                String type = hashMap.get("type");
-                String beginsFrom = hashMap.get("begins");
-                String position = hashMap.get("position");
-                String length = hashMap.get("length");
-
-                Dialog dialog = new Dialog(CheckActivity.this);
-                dialog.setContentView(R.layout.dialog_info_layout);
-                dialog.setTitle("Word analysis");
-
-                ((TextView) dialog.findViewById(R.id.textViewDialogWord)).setText(word);
-                ((TextView) dialog.findViewById(R.id.textViewDialogType)).setText(type);
-                ((TextView) dialog.findViewById(R.id.textViewDialogBegins)).setText(beginsFrom);
-                ((TextView) dialog.findViewById(R.id.textViewDialogPosition)).setText(position);
-                ((TextView) dialog.findViewById(R.id.textViewDialogLength)).setText(length);
-
-                dialog.show();
-            }
-        });
 
     }
 
@@ -218,8 +208,49 @@ public class CheckActivity extends AppCompatActivity {
         return arrayLexemes;
     }
 
-    private void createDialog(){
+    private void createDialog(ArrayList<HashMap<String,String>> arrayData){
+        adapterWasSet = true;
 
+        adapter = new SimpleAdapter(this, arrayData, R.layout.two_text_views,
+                new String[]{"word", "type"},
+                new int[]{R.id.text1, R.id.text2});
+
+        LayoutInflater layoutInflater = getLayoutInflater();
+        View headerView = layoutInflater.inflate(R.layout.two_text_views_header, null, false);
+        TextView textView1 = (TextView) headerView.findViewById(R.id.text1);
+        textView1.setText("Word");
+        TextView textView2 = (TextView) headerView.findViewById(R.id.text2);
+        textView2.setText("Type");
+
+        if(listView.getHeaderViewsCount() < 1)
+            listView.addHeaderView(headerView);
+        listView.setAdapter(adapter);
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                HashMap <String,String> hashMap = (HashMap <String,String>)listView.getItemAtPosition(i);
+
+                String word = hashMap.get("word");
+                String type = hashMap.get("type");
+                String beginsFrom = hashMap.get("begins");
+                String position = hashMap.get("position");
+                String length = hashMap.get("length");
+
+                Dialog dialog = new Dialog(CheckActivity.this);
+                dialog.setContentView(R.layout.dialog_info_layout);
+                dialog.setTitle("Word analysis");
+
+                ((TextView) dialog.findViewById(R.id.textViewDialogWord)).setText(word);
+                ((TextView) dialog.findViewById(R.id.textViewDialogType)).setText(type);
+                ((TextView) dialog.findViewById(R.id.textViewDialogBegins)).setText(beginsFrom);
+                ((TextView) dialog.findViewById(R.id.textViewDialogPosition)).setText(position);
+                ((TextView) dialog.findViewById(R.id.textViewDialogLength)).setText(length);
+
+                dialog.show();
+            }
+        });
     }
 
     public boolean masContains(String [] mas, char value){

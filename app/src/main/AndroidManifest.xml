@@ -17,7 +17,8 @@
         </activity>
         <activity android:name=".FieldsActivity" />
         <activity android:name=".CustomQueryActivity" />
-        <activity android:name=".CheckActivity"></activity>
+        <activity android:name=".CheckActivity"
+            android:windowSoftInputMode="stateHidden"></activity>
     </application>
 
 </manifest>
