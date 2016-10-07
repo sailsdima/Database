@@ -17,8 +17,10 @@
         </activity>
         <activity android:name=".FieldsActivity" />
         <activity android:name=".CustomQueryActivity" />
-        <activity android:name=".CheckActivity"
-            android:windowSoftInputMode="stateHidden"></activity>
+        <activity
+            android:name=".CheckActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".SyntaxisAnalisatorActivity"></activity>
     </application>
 
 </manifest>
