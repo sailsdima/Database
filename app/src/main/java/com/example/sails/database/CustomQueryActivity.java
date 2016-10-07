@@ -107,11 +107,7 @@ public class CustomQueryActivity extends AppCompatActivity implements View.OnCli
 
                     c.close();
                 }
-
-
-
                 keyWordsInsertion(arrColumns.toArray());
-
                 break;
 
         }
