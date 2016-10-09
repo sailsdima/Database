@@ -54,7 +54,7 @@ public class CheckActivity extends AppCompatActivity {
         String query = getIntent().getStringExtra("query");
         editTextQuery.setText(query);
 
-        parseQuery(editTextQuery.getText().toString());
+        ArrayList<Lexeme> arrayList = parseQuery(editTextQuery.getText().toString());
 
         editTextQuery.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -74,6 +74,8 @@ public class CheckActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
 
 
@@ -105,7 +107,7 @@ public class CheckActivity extends AppCompatActivity {
         myTokens.add(new Token("unknown token", Pattern.compile(".*")));
     }
 
-    private void parseQuery(String query) {
+    public ArrayList<Lexeme> parseQuery(String query) {
         Log.d(LOG_TAG, "class CustomQueryActivity. Method parseQuery(query). query = \n" + query);
 
         for(Token t: myTokens) {
@@ -148,7 +150,7 @@ public class CheckActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
 
 
-
+        return lexemes;
     }
 
     private ArrayList<Lexeme> splitLine(String line){
