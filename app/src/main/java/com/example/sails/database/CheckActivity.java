@@ -28,7 +28,7 @@ public class CheckActivity extends AppCompatActivity {
     private SimpleAdapter adapter;
     private boolean adapterWasSet = false;
 
-    LexicalAnalis lexicalAnalisator;
+    LexicalAnalisator lexicalAnalisator;
 
 
     @Override
@@ -40,7 +40,7 @@ public class CheckActivity extends AppCompatActivity {
         final EditText editTextQuery = (EditText) findViewById(R.id.textViewCheckActivityQuery);
         listView = (ListView) findViewById(R.id.listViewCheckActivity);
 
-        lexicalAnalisator = new LexicalAnalis(this);
+        lexicalAnalisator = new LexicalAnalisator(this);
 
         String query = getIntent().getStringExtra("query");
         editTextQuery.setText(query);

@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  * Created by sails on 09.10.2016.
  */
 
-public class LexicalAnalis {
+public class LexicalAnalisator {
     private Context context;
     private ArrayList<Token> myTokens;
     private String arrSymbols[];
@@ -20,10 +20,10 @@ public class LexicalAnalis {
     private String strInsteadSpace = "#32";
     private final static String LOG_TAG = "dbLogs";
 
-    LexicalAnalis(Context context){
+    LexicalAnalisator(Context context){
         this.context = context;
         initMyTokens();
-        Log.d(LOG_TAG,"LexicalAnalis class created.");
+        Log.d(LOG_TAG,"LexicalAnalisator class created.");
     }
 
     private void initMyTokens(){
@@ -56,7 +56,7 @@ public class LexicalAnalis {
 
 
     public ArrayList<Lexeme> getLexemes(String query) {
-        Log.d(LOG_TAG, "class LexicalAnalis. Method getLexemes(query). query = \n" + query);
+        Log.d(LOG_TAG, "class LexicalAnalisator. Method getLexemes(query). query = \n" + query);
 
         for(Token t: myTokens) {
             Log.d(LOG_TAG, t.getMask());
@@ -82,7 +82,7 @@ public class LexicalAnalis {
 
     private ArrayList<Lexeme> splitLine(String line){
 
-        Log.d(LOG_TAG, "class LexicalAnalis. Method splitLine(line). line = \n" + line);
+        Log.d(LOG_TAG, "class LexicalAnalisator. Method splitLine(line). line = \n" + line);
 
         StringBuilder sLine = new StringBuilder(line);
         sLine.insert(sLine.length()," ");
