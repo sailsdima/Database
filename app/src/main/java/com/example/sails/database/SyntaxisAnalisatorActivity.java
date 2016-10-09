@@ -17,5 +17,7 @@ public class SyntaxisAnalisatorActivity extends AppCompatActivity {
         textViewSyntAnalisatorQuery = (TextView) findViewById(R.id.textViewSyntAnalisatorQuery);
 
         textViewSyntAnalisatorQuery.setText(getIntent().getStringExtra("query"));
+        CheckActivity checkActivity = new CheckActivity();
+
     }
 }

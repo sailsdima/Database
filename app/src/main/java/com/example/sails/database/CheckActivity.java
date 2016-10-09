@@ -76,6 +76,7 @@ public class CheckActivity extends AppCompatActivity {
     }
 
 
+
     private void initMyTokens(){
         myTokens = new ArrayList<>();
 

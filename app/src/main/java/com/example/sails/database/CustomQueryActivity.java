@@ -8,6 +8,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,6 +33,7 @@ public class CustomQueryActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_query);
 
+
         buttonCustomCancel = (Button) findViewById(R.id.buttonCustomCancel);
         buttonCustomDoQuery = (Button) findViewById(R.id.buttonCustomDoQuery);
         buttonCustomCheck = (Button) findViewById(R.id.buttonCustomCheck);
@@ -47,6 +51,41 @@ public class CustomQueryActivity extends AppCompatActivity implements View.OnCli
         editTextCustomQuery = (EditText) findViewById(R.id.editTextCustomQuery);
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater menuInflater = new MenuInflater(this);
+        menuInflater.inflate(R.menu.menu_analisators, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()){
+            case R.id.menuLexicalAnalis:
+                intent = new Intent(this, CheckActivity.class);
+                intent.putExtra("query", editTextCustomQuery.getText().toString());
+                startActivity(intent);
+
+                break;
+            case R.id.menuSyntaxisAnalis:
+                intent = new Intent(this, SyntaxisAnalisatorActivity.class);
+                intent.putExtra("query", editTextCustomQuery.getText().toString());
+                startActivity(intent);
+
+                break;
+            case R.id.menuSemanticalAnalis:
+                Toast.makeText(this, "No semanticalAnalis added yet", Toast.LENGTH_SHORT).show();
+                break;
+
+        }
+
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
