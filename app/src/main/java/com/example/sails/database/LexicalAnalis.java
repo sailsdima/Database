@@ -55,8 +55,8 @@ public class LexicalAnalis {
     }
 
 
-    public ArrayList<Lexeme> parseQuery(String query) {
-        Log.d(LOG_TAG, "class LexicalAnalis. Method parseQuery(query). query = \n" + query);
+    public ArrayList<Lexeme> getLexemes(String query) {
+        Log.d(LOG_TAG, "class LexicalAnalis. Method getLexemes(query). query = \n" + query);
 
         for(Token t: myTokens) {
             Log.d(LOG_TAG, t.getMask());
@@ -73,12 +73,10 @@ public class LexicalAnalis {
                         lexeme.setWord(lexeme.getWord().replaceAll(strInsteadSpace, " "));
                     }
                     lexeme.setType(t.getName());
-
                     break;
                 }
             }
         }
-
         return lexemes;
     }
 

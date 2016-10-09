@@ -1,29 +1,20 @@
 package com.example.sails.database;
 
 import android.app.Dialog;
-import android.graphics.Color;
-import android.print.PrintAttributes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.regex.Pattern;
 
 public class CheckActivity extends AppCompatActivity {
 
@@ -55,7 +46,7 @@ public class CheckActivity extends AppCompatActivity {
         editTextQuery.setText(query);
 
 
-        drawLexemsTable(lexicalAnalisator.parseQuery(query));
+        drawLexemsTable(lexicalAnalisator.getLexemes(query));
 
         editTextQuery.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -65,7 +56,7 @@ public class CheckActivity extends AppCompatActivity {
                     if (i == KeyEvent.KEYCODE_ENTER) {
                         Log.d(LOG_TAG, "SPACE CLICKED");
 
-                        drawLexemsTable(lexicalAnalisator.parseQuery(editTextQuery.getText().toString()));
+                        drawLexemsTable(lexicalAnalisator.getLexemes(editTextQuery.getText().toString()));
 
                         return true;
                     }

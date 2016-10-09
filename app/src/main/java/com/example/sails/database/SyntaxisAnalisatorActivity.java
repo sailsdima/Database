@@ -25,8 +25,8 @@ public class SyntaxisAnalisatorActivity extends AppCompatActivity {
         Log.d(LOG_TAG, "Before creating CheckActivity");
 
         textViewSyntAnalisatorQuery.setText(query);
-        //CheckActivity checkActivity = new CheckActivity();
-        //ArrayList<Lexeme> lexemes = checkActivity.parseQuery(query);
+
+        //ArrayList<Lexeme> lexemes = checkActivity.getLexemes(query);
         //Log.d(LOG_TAG, lexemes.get(1).toString());
 
     }
