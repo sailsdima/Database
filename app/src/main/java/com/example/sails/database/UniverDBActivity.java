@@ -302,7 +302,7 @@ public class UniverDBActivity extends AppCompatActivity implements View.OnClickL
 
 
         switch (query.split(" ")[0]) {
-            case "SWITCH":
+            case "SELECT":
                 Cursor cursor = database.rawQuery(query, new String[]{});
                 String values[] = {"", ""};
 

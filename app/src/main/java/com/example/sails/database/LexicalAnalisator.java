@@ -44,7 +44,7 @@ public class LexicalAnalisator {
         myTokens.add(new Token("keyWord", arrKeywords));
         myTokens.add(new Token("keyWord (dataType)", arrDataTypes));
         myTokens.add(new Token("number", patternNumbers));
-        myTokens.add(new Token("compoun dOperator", arrCompoundOperator));
+        myTokens.add(new Token("compound Operator", arrCompoundOperator));
         myTokens.add(new Token("comparison operator", arrComparisonOperators));
         myTokens.add(new Token("symbol quote", arrSymbolsQuotes));
         myTokens.add(new Token("symbol", arrSymbols));
