@@ -29,8 +29,6 @@ public class SyntaxisAnalisatorActivity extends AppCompatActivity {
 
         textViewSyntAnalisatorQuery.setText(query);
 
-
-
         LexicalAnalisator lexicalAnalisator = new LexicalAnalisator(this);
 
         String zapros1 = "SELECT <column names> FROM <column name> INNER JOIN <column name> ON <column names> = <column names>" +
@@ -47,6 +45,8 @@ public class SyntaxisAnalisatorActivity extends AppCompatActivity {
             else
                 stringBuilder.append("<" + lexeme.getType() + "> ");
         }*/
+// Чистый код Мартина
+
 
         StringBuilder stringQuery = new StringBuilder();
         for(int i = 0; i < lexemes.size(); i++){
@@ -59,10 +59,15 @@ public class SyntaxisAnalisatorActivity extends AppCompatActivity {
             else stringQuery.append(" " + lexemes.get(i).getWord() + " ");
         }
 
+
+        Log.d(LOG_TAG, "00000 " + query);
+        Log.d(LOG_TAG, "11111 " + stringQuery.toString());
         String changedQuery = stringQuery.toString().replaceAll("(<column name>.<column name>,?)+", " <column names> ");
         changedQuery = changedQuery.trim();
         changedQuery = changedQuery.replaceAll("[\\s]{2,}", " ");
+        Log.d(LOG_TAG, "22222 " + changedQuery);
 
+ 
         ImageView imageView = (ImageView) findViewById(R.id.imageViewSyntaxisAnalisator);
         if(changedQuery.equals(zapros1)){
             imageView.setImageResource(android.R.drawable.arrow_up_float);

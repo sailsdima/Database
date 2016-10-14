@@ -8,6 +8,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -20,10 +21,6 @@ public class CheckActivity extends AppCompatActivity {
 
     private ListView listView;
 
-    private String arrSymbols[];
-    private String arrComparisonOperators[];
-    private String arrSymbolsQuotes[];
-    private String strInsteadSpace = "#32";
     private final static String LOG_TAG = "dbLogs";
     private SimpleAdapter adapter;
     private boolean adapterWasSet = false;
@@ -54,7 +51,7 @@ public class CheckActivity extends AppCompatActivity {
 
                 if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
                     if (i == KeyEvent.KEYCODE_ENTER) {
-                        Log.d(LOG_TAG, "SPACE CLICKED");
+                        Log.d(LOG_TAG, "ENTER CLICKED");
 
                         drawLexemsTable(lexicalAnalisator.getLexemes(editTextQuery.getText().toString()));
 
@@ -70,11 +67,12 @@ public class CheckActivity extends AppCompatActivity {
     private void drawLexemsTable(ArrayList<Lexeme> lexemes) {
 
 
-        for (Lexeme lexeme: lexemes) {
+        for (Lexeme lexeme : lexemes) {
             Log.d(LOG_TAG, "AAAAAAA   " + lexeme.toString());
         }
 
         HashMap<String, String> map;
+
         ArrayList<HashMap<String, String>> arrayData = new ArrayList<>();
 
         for (Lexeme lexeme : lexemes) {
@@ -95,7 +93,7 @@ public class CheckActivity extends AppCompatActivity {
 
     }
 
-    private void createDialog(ArrayList<HashMap<String, String>> arrayData) {
+    private void createDialog(final ArrayList<HashMap<String, String>> arrayData) {
         adapterWasSet = true;
 
         adapter = new SimpleAdapter(this, arrayData, R.layout.two_text_views,
@@ -104,14 +102,40 @@ public class CheckActivity extends AppCompatActivity {
 
         LayoutInflater layoutInflater = getLayoutInflater();
         View headerView = layoutInflater.inflate(R.layout.two_text_views_header, null, false);
-        TextView textView1 = (TextView) headerView.findViewById(R.id.text1);
-        textView1.setText("Word");
-        TextView textView2 = (TextView) headerView.findViewById(R.id.text2);
-        textView2.setText("Type");
+        View footerView = layoutInflater.inflate(R.layout.two_text_views_footer, null, false);
+
 
         if (listView.getHeaderViewsCount() < 1)
             listView.addHeaderView(headerView);
+        if (listView.getFooterViewsCount() < 1)
+            listView.addFooterView(footerView);
         listView.setAdapter(adapter);
+
+        final EditText editTextWordToAdd = (EditText) footerView.findViewById(R.id.editTextListViewWordToAdd);
+        ((Button) footerView.findViewById(R.id.buttonListViewAdd)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                LexicalAnalisator lexicalAnalisator = new LexicalAnalisator(CheckActivity.this);
+                ArrayList<Lexeme> lexemesToAdd = lexicalAnalisator.getLexemes(editTextWordToAdd.getText().toString());
+
+                HashMap<String, String> map;
+
+                for (Lexeme lexeme : lexemesToAdd) {
+                    map = new HashMap<>();
+                    map.put("word", lexeme.getWord());
+                    map.put("type", lexeme.getType());
+                    map.put("position", String.valueOf(lexeme.getPosition()));
+                    map.put("begins", String.valueOf(lexeme.getBeginsFrom()));
+                    map.put("length", String.valueOf(lexeme.getLength()));
+                    arrayData.add(map);
+
+                }
+
+                adapter.notifyDataSetChanged();
+
+            }
+        });
 
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -125,7 +149,7 @@ public class CheckActivity extends AppCompatActivity {
                 String position = hashMap.get("position");
                 String length = hashMap.get("length");
 
-                Dialog dialog = new Dialog(CheckActivity.this);
+                final Dialog dialog = new Dialog(CheckActivity.this);
                 dialog.setContentView(R.layout.dialog_info_layout);
                 dialog.setTitle("Word analysis");
 
@@ -134,6 +158,17 @@ public class CheckActivity extends AppCompatActivity {
                 ((TextView) dialog.findViewById(R.id.textViewDialogBegins)).setText(beginsFrom);
                 ((TextView) dialog.findViewById(R.id.textViewDialogPosition)).setText(position);
                 ((TextView) dialog.findViewById(R.id.textViewDialogLength)).setText(length);
+
+                final int numToDelete = i;
+                ((Button) dialog.findViewById(R.id.buttonListViewItemDelete)).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        arrayData.remove(numToDelete - 1);
+                        adapter.notifyDataSetChanged();
+
+                        dialog.cancel();
+                    }
+                });
 
                 dialog.show();
             }
