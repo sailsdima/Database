@@ -141,6 +141,9 @@ public class CheckActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(i == 0)
+                    return;
+
                 HashMap<String, String> hashMap = (HashMap<String, String>) listView.getItemAtPosition(i);
 
                 String word = hashMap.get("word");
