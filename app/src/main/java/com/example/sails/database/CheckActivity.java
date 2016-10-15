@@ -144,6 +144,7 @@ public class CheckActivity extends AppCompatActivity {
                 if(i == 0)
                     return;
 
+
                 HashMap<String, String> hashMap = (HashMap<String, String>) listView.getItemAtPosition(i);
 
                 String word = hashMap.get("word");
